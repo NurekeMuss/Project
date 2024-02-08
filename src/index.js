@@ -244,6 +244,6 @@ app.post('/weather', (req, res) => {
   });
 
 const port = 3000;
-app.listen(port,()=>{
+app.listen(process.env.PORT || port,()=>{
     console.log('listening on port')
 });

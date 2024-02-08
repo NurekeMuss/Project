@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 mongoose.connect(
-    'mongodb+srv://admin:admin@cluster0.2re14nq.mongodb.net/assik3'
+    process.env.MONGODB_URI
     ).then(() => {
         console.log('db connection')
     }).catch((err) =>{
