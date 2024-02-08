@@ -1,0 +1,23 @@
+{
+  "name": "pracitv",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon src/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.6.7",
+    "bcrypt": "^5.1.1",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "https": "^1.0.0",
+    "mapbox-gl": "^3.1.2",
+    "mongoose": "^8.1.1",
+    "node-fetch": "^3.3.2",
+    "nodemon": "^3.0.3"
+  }
+}
