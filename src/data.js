@@ -1,12 +1,15 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const weatherSchema = new mongoose.Schema({
-  city: String,
-  temperature: Number,
-  description: String,
-  icon: String,
-  imageURL: String,
-  createdAt: { type: Date, default: Date.now }
+    city: String,
+    temperature: Number,
+    description: String,
+    icon: String,
+    imageURL: String,
+    windSpeed: Number, // Add windSpeed field to the schema
+    createdAt: { type: Date, default: Date.now }
 });
 
-module.exports = mongoose.model('Weather', weatherSchema);
+const Weather = mongoose.model('Weather', weatherSchema);
+
+export default Weather;

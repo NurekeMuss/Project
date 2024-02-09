@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const newsHistorySchema = new mongoose.Schema({
     title: {
@@ -15,6 +15,6 @@ const newsHistorySchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
-const news = mongoose.model('NewsHistory', newsHistorySchema);
+const News = mongoose.model('NewsHistory', newsHistorySchema);
 
-module.exports = news;
+export default News;
