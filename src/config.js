@@ -1,12 +1,14 @@
 const mongoose = require('mongoose');
-
-mongoose.connect(
-   'mongodb+srv://admin:admin@cluster0.2re14nq.mongodb.net/assik3'
-    ).then(() => {
-        console.log('db connection')
-    }).catch((err) =>{
-        console.log('error connecting to db', err )
-    })
+require('dotenv').config();
+    
+mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://admin:admin@cluster0.2re14nq.mongodb.net/assik3', {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+      }).then(() => {
+        console.log('Connected to MongoDB');
+      }).catch((err) => {
+        console.error('Error connecting to MongoDB:', err);
+      });
 
 const LoginSchema = new mongoose.Schema({
     name:{
