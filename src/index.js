@@ -3,15 +3,22 @@ const path = require('path');
 const bcrypt = require('bcrypt');
 const collection = require('./config');
 const Weather = require('./data');
+const NewsHistory  =  require('./newsData');
 const https = require('https');
 const axios = require('axios');
+const bodyParser = require('body-parser');
+
+
 
 const app = express();
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 app.set('view engine', 'ejs')
 app.use(express.static("public"))
+ app.use(express.static(path.join(__dirname, '/public')))
 
 app.get('/', (req, res) =>{
     res.render('login')
@@ -70,6 +77,20 @@ const newsApiUrl = 'https://newsapi.org/v2/top-headlines?' +
 'country=us&' +
 'apiKey=ac3a849991fd40a198b6f950fea93b99';
     
+app.get('/historyNews', async (req, res) => {
+  try {
+      const newsHistory = await NewsHistory.find().sort({ createdAt: -1 });
+      if (newsHistory.length > 0) {
+          res.render('historyNews', { newsHistory });
+      } else {
+          res.render('historyNews', { newsHistory: [] }); // Pass an empty array if no data found
+      }
+  } catch (error) {
+      console.error('Error fetching news history:', error.message);
+      res.status(500).send('Failed to fetch news history.');
+  }
+});
+
     app.get('/news', async (req, res) => {
         try {
             const response = await axios.get(newsApiUrl);
@@ -126,17 +147,16 @@ app.post('/edit-user', async (req, res) => {
   });
   
 // Route to handle user deletion
-app.post('/delete-user', async (req, res) => {
-    const userId = req.body.userId;
+app.delete('/delete-user/:userId', async (req, res) => {
+    const userId = req.params.userId;
     try {
-      await collection.findByIdAndDelete(userId);
-      res.redirect('/admin'); // Redirect to the users page after deletion
+        await collection.findByIdAndDelete(userId);
+        res.redirect('/admin'); // Redirect to the users page after deletion
     } catch (error) {
-      console.error('Error deleting user:', error.message);
-      res.status(500).send('Failed to delete user.');
+        console.error('Error deleting user:', error.message);
+        res.status(500).send('Failed to delete user.');
     }
-  });
-  
+});
 
 app.get('/admin', async (req, res) => {
     try {
@@ -172,7 +192,6 @@ app.post('/login', async (req, res) => {
 
 /* OpenWeather */
 const api = "dc7e0008c99adc1f1c05713d44e74b9e" 
-
 
 app.get('/historyWeather', async (req, res) => {
     try {

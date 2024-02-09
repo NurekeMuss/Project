@@ -42,7 +42,7 @@
     <% if (historyWeather.length > 0) { %>
         <ul>
             <% historyWeather.forEach(entry => { %>
-                <li><%= entry.city %> is <%= entry.temperature %>°C  <%= entry.description %></li>
+                <li><%= entry.city %> is <%= entry.temperature %>°C <%= entry.description %> at <%= new Date(entry.createdAt).toLocaleString() %></li>
             <% }) %>
         </ul>
     <% } else { %>
