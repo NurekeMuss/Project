@@ -20,6 +20,3 @@ I write in ES 6,also have littile validation )
 ============================================================================
 Moreover i add map and i hope that map will be work :) 
 ============================================================================
-
-
-About deploy have some problems when u write admin param's it will not work but it worked locally, so u can add сонына /admin and u redirect for admin page
