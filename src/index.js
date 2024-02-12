@@ -7,6 +7,7 @@ import NewsHistory from './newsData.js'
 import https from 'https';
 import axios from 'axios';
 import bodyParser from 'body-parser';
+
 import { body, validationResult  } from "express-validator";
 import { registerValidation, loginValidator } from './validation.js'
 
@@ -48,9 +49,6 @@ app.get('/productindex', (req, res) =>{
 
 
 /* FORM */
-
-
-
 app.get('/signup', (req, res) =>{
     res.render('signup')
 })

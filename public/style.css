@@ -10,6 +10,10 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
+    background-image: url("https://png.pngtree.com/thumb_back/fh260/background/20200714/pngtree-modern-double-color-futuristic-neon-background-image_351866.jpg");
+    background-position:  center;
+    background-repeat:no-repeat;
+    background-size: cover;
 }
 
 h2{
@@ -48,7 +52,7 @@ h2{
     display: block;
     width: 100%;
     padding: 10px;
-    background-color: #472dbb;
+    background-color: black;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -57,7 +61,7 @@ h2{
 }
 
 .submit-btn:hover{
-    background-color: #4565a0;
+    background-color: green;
 }
 
 p{
@@ -66,5 +70,6 @@ p{
 }
 a{
     text-decoration: none;
+    color: white;
     font-family: 'Kanit', sans-serif;
 }
