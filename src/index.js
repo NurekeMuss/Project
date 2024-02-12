@@ -1,18 +1,14 @@
 import express from 'express';
 import path from 'path';
 import bcrypt from 'bcrypt';
-import collection from './config.js'
+import collection from './user.js'
 import Weather from './data.js'
 import NewsHistory from './newsData.js'
 import https from 'https';
 import axios from 'axios';
 import bodyParser from 'body-parser';
-import { body,validationResult  } from "express-validator";
-
-
-import {registerValidation, loginValidator} from './validation.js'
-
-
+import { body, validationResult  } from "express-validator";
+import { registerValidation, loginValidator } from './validation.js'
 
 const app = express();
 app.use(express.json())
@@ -27,7 +23,7 @@ const __dirname = process.cwd();
 app.use(express.static(path.join(__dirname, '/public')));
 
 app.get('/', (req, res) =>{
-    res.render('login')
+    res.render('home')
 })
 
 app.get('/weather',(req, res) =>{
@@ -50,87 +46,11 @@ app.get('/productindex', (req, res) =>{
     res.render('productsindex')
 })
 
-/* Product */
-app.get('/product', async (req, res) => {
-    try {
-        const productData = await fetchMultipleProducts(); // Fetch data for multiple products
-        res.render('product', { productData });
-    } catch (error) {
-        console.error('Error fetching product data:', error.message);
-        res.status(500).send('Failed to fetch product data.');
-    }
-});
-
-async function fetchMultipleProducts() {
-    try {
-        const productPromises = [];
-        // Fetch data for 15 products
-        for (let i = 1; i <= 15; i++) {
-            productPromises.push(axios.get(`https://dummyjson.com/products/${i}`));
-        }
-        // Wait for all requests to resolve
-        const products = await Promise.all(productPromises);
-        // Extract product data from responses
-        const productData = products.map(response => response.data);
-        return productData;
-    } catch (error) {
-        throw new Error('Failed to fetch product data.');
-    }
-}
-
-/* News api */
-const newsApiUrl = 'https://newsapi.org/v2/top-headlines?' +
-'country=us&' +
-'apiKey=ac3a849991fd40a198b6f950fea93b99';
-
-app.get('/news', async (req, res) => {
-    try {
-        const response = await axios.get(newsApiUrl);
-        const articles = response.data.articles;
-        
-        // Check if articles exist and have data
-        if (articles && articles.length > 0) {
-            // Render the news page with the fetched articles
-            res.render('news', { articles });
-        } else {
-            // Render the news page with a message if no articles found
-            res.render('news', { articles: null, message: 'No news articles found.' });
-        }
-    } catch (error) {
-        console.error('Error fetching news:', error.message);
-        
-        // Check if error.response exists before accessing its properties
-        if (error.response && error.response.status) {
-            console.error('Status code:', error.response.status);
-        }
-        
-        // Send a 500 status and error message
-        res.status(500).send('Failed to fetch news.');
-    }
-});
-
-// Route to fetch news history from the database
-app.get('/historyNews', async (req, res) => {
-    try {
-        // Get today's date
-        const today = new Date();
-        today.setHours(0, 0, 0, 0); // Set time to midnight
-
-        // Find news articles created today
-        const newsHistory = await NewsHistory.find({ createdAt: { $gte: today } }).sort({ createdAt: -1 });
-
-        if (newsHistory.length > 0) {
-            res.render('historyNews', { newsHistory });
-        } else {
-            res.render('historyNews', { newsHistory: [] }); // Pass an empty array if no data found
-        }
-    } catch (error) {
-        console.error('Error fetching news history:', error.message);
-        res.status(500).send('Failed to fetch news history.');
-    }
-});
 
 /* FORM */
+
+
+
 app.get('/signup', (req, res) =>{
     res.render('signup')
 })
@@ -216,10 +136,96 @@ app.post('/login',loginValidator, async (req, res) => {
             req.send("wrong password")
         }
 
+        const token = jwt.sign({ userId: check._id }, 'your_secret_key', { expiresIn: '30d' });
+          res.json({ token });
+          console.log(token);
+
     }catch(e){
         console.log(e)
     }
 })
+
+
+
+/* Product */
+app.get('/product', async (req, res) => {
+    try {
+        const productData = await fetchMultipleProducts(); // Fetch data for multiple products
+        res.render('product', { productData });
+    } catch (error) {
+        console.error('Error fetching product data:', error.message);
+        res.status(500).send('Failed to fetch product data.');
+    }
+});
+
+async function fetchMultipleProducts() {
+    try {
+        const productPromises = [];
+        // Fetch data for 15 products
+        for (let i = 1; i <= 15; i++) {
+            productPromises.push(axios.get(`https://dummyjson.com/products/${i}`));
+        }
+        // Wait for all requests to resolve
+        const products = await Promise.all(productPromises);
+        // Extract product data from responses
+        const productData = products.map(response => response.data);
+        return productData;
+    } catch (error) {
+        throw new Error('Failed to fetch product data.');
+    }
+}
+
+/* News api */
+const newsApiUrl = 'https://newsapi.org/v2/top-headlines?' +
+'country=us&' +
+'apiKey=ac3a849991fd40a198b6f950fea93b99';
+
+app.get('/news', async (req, res) => {
+    try {
+        const response = await axios.get(newsApiUrl);
+        const articles = response.data.articles;
+        
+        // Check if articles exist and have data
+        if (articles && articles.length > 0) {
+            // Render the news page with the fetched articles
+            res.render('news', { articles });
+        } else {
+            // Render the news page with a message if no articles found
+            res.render('news', { articles: null, message: 'No news articles found.' });
+        }
+    } catch (error) {
+        console.error('Error fetching news:', error.message);
+        
+        // Check if error.response exists before accessing its properties
+        if (error.response && error.response.status) {
+            console.error('Status code:', error.response.status);
+        }
+        
+        // Send a 500 status and error message
+        res.status(500).send('Failed to fetch news.');
+    }
+});
+
+// Route to fetch news history from the database
+app.get('/historyNews', async (req, res) => {
+    try {
+        // Get today's date
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); // Set time to midnight
+
+        // Find news articles created today
+        const newsHistory = await NewsHistory.find({ createdAt: { $gte: today } }).sort({ createdAt: -1 });
+
+        if (newsHistory.length > 0) {
+            res.render('historyNews', { newsHistory });
+        } else {
+            res.render('historyNews', { newsHistory: [] }); // Pass an empty array if no data found
+        }
+    } catch (error) {
+        console.error('Error fetching news history:', error.message);
+        res.status(500).send('Failed to fetch news history.');
+    }
+});
 
 /* OpenWeather */
 const api = "dc7e0008c99adc1f1c05713d44e74b9e" 
@@ -296,6 +302,6 @@ app.post('/weather', (req, res) => {
 
 
 const port = 3000;
-app.listen(process.env.PORT || port,()=>{
+app.listen(port,()=>{
     console.log('listening on port')
 });

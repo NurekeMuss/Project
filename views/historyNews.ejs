@@ -45,7 +45,7 @@
         <ul>
             <% newsHistory.forEach(entry => { %>
                 <li>
-                    <p>Title: <%= entry.title %></p>
+                      <p>Title: <%= entry.title %></p>
                     <p>Description: <%= entry.description %></p>
                     <p>Publish Date: <%= new Date(entry.publishedAt).toLocaleDateString() %></p> <!-- Display publish date -->
                 </li>

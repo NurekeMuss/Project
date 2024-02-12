@@ -1,17 +1,4 @@
-/* 
-var successMessage = document.getElementById("success");
-successMessage.style.display = "block";
-setTimeout(function () {
-  successMessage.style.display = "none";
-}, 3000);
 
-
-var errorMessage = document.getElementById("error");
-errorMessage.style.display = "block";
-errorMessage.style.backgroundColor = "red";
-setTimeout(function () {
-  errorMessage.style.display = "none";
-}, 3000); */
 
 $(document).ready(function(){
     $(window).scroll(function(){

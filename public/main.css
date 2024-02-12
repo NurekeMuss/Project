@@ -84,7 +84,7 @@ section .title::after{
     position: fixed;
     width: 100%;
     background-color: black;
-    opacity: 0.2;
+
     z-index: 999;
     padding: 30px 0;
     font-family: 'Ubuntu', sans-serif;
@@ -124,7 +124,7 @@ section .title::after{
     transition: color 0.3s ease;
 }
 .navbar .menu li a:hover{
-    color: #6e6e6e;
+    color: #e3e3e3;
 }
 .navbar.sticky .menu li a:hover{
     color: #fff;
