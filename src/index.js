@@ -7,6 +7,7 @@ import NewsHistory from './newsData.js'
 import https from 'https';
 import axios from 'axios';
 import bodyParser from 'body-parser';
+import jwt from 'jsonwebtoken'
 
 import { body, validationResult  } from "express-validator";
 import { registerValidation, loginValidator } from './validation.js'
