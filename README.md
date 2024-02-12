@@ -1,7 +1,7 @@
 Hello) 
 For run project u should install this packages 
 	
-npm install express, mongoose, path, bcrypt, https, axios, bodyParser, ejs, express-validator, dotenv
+npm install express, mongoose, path, bcrypt, https, axios, body-parser, ejs, express-validator, dotenv
 
 And after that in terminal write 
 npm run start
@@ -20,3 +20,6 @@ I write in ES 6,also have littile validation )
 ============================================================================
 Moreover i add map and i hope that map will be work :) 
 ============================================================================
+
+
+About deploy have some problems when u write admin param's it will not work but it worked locally, so u can add сонына /admin and u redirect for admin page
